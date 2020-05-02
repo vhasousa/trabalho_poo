@@ -13,6 +13,9 @@ class BookController {
     const book = await Book.findAll({
       limit: 10,
       offset: (page - 1) * 10,
+      order: [
+        ['updated_at', 'DESC'],
+      ],
     });
 
     return res.json(book);
