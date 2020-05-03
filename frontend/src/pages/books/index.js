@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import api from '../../services/api';
 
+import ImageInput from './ImageInput/index'
+
 import {
   Container,
   Title,
@@ -20,9 +22,12 @@ export default class Books extends Component {
     title: "",
     description: "",
     author: "",
+    page_number: "",
     year: "",
     publishing_company: "",
     price: "",
+    isbn: "",
+    selectedFile: "",
     list: [],
     bookInfo: {},
     page: 1,
@@ -31,25 +36,29 @@ export default class Books extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    const { title, description, author, year, publishing_company, price, list, updateId, page } = this.state;
+    const { title, description, author, page_number, year, publishing_company, price, isbn, list, updateId, page } = this.state;
 
     if (!!updateId) {
       await api.put(`/books/${updateId}`, {
         title,
         description,
         author,
+        page_number,
         year,
         publishing_company,
         price,
+        isbn,
       });
 
       this.setState({
         title: '',
         description: '',
         author: '',
+        page_number: '',
         year: '',
         publishing_company: '',
         price: '',
+        isbn: '',
       });
 
       this.componentDidMount(page);
@@ -61,9 +70,11 @@ export default class Books extends Component {
       title,
       description,
       author,
+      page_number,
       year,
       publishing_company,
       price,
+      isbn,
     });
 
     this.setState({
@@ -71,9 +82,11 @@ export default class Books extends Component {
       title: '',
       description: '',
       author: '',
+      page_number: '',
       year: '',
       publishing_company: '',
       price: '',
+      isbn: '',
     })
   }
 
@@ -107,29 +120,33 @@ export default class Books extends Component {
 
   handleUpdate = async id => {
     const response = await api.get(`/books/${id}`);
-    const { title, description, author, year, publishing_company, price } = response.data;
+    const { title, description, author, page_number, year, publishing_company, price, isbn } = response.data;
 
 
     this.setState({
       title,
       description,
       author,
+      page_number,
       year,
       publishing_company,
       price,
+      isbn,
       updateId: id
     })
   }
 
   render() {
 
-    const { title, description, author, year, publishing_company, price, list } = this.state
+    const { title, description, author, page_number, year, publishing_company, price, isbn, list } = this.state
 
     return (
       <Container>
         <div className="container mb-10">
           <Title>Cadastro de Livros</Title>
           <FormColumn onSubmit={this.handleSubmit}>
+
+          <ImageInput name="avatar_id"/>
             <InputColumn
               type="text"
               name="title"
@@ -156,6 +173,14 @@ export default class Books extends Component {
             />
             <InputColumn
               type="text"
+              name="author"
+              id="author"
+              placeholder="Digite o número de páginas"
+              value={page_number}
+              onChange={e => this.setState({ page_number: e.target.value })}
+            />
+            <InputColumn
+              type="text"
               name="year"
               id="year"
               placeholder="Digite o ano de publicação"
@@ -178,6 +203,14 @@ export default class Books extends Component {
               value={price}
               onChange={e => this.setState({ price: e.target.value })}
             />
+            <InputColumn
+              type="text"
+              name="author"
+              id="author"
+              placeholder="Digite ISBN"
+              value={isbn}
+              onChange={e => this.setState({ isbn: e.target.value })}
+            />
             <div>
               <Button type="submit" tipo="add">Salvar</Button>
               <Button tipo="remove">Cancelar</Button>
@@ -190,9 +223,11 @@ export default class Books extends Component {
                 <th>Nome</th>
                 <th>Descrição</th>
                 <th>Autor</th>
+                <th>Número de páginas</th>
                 <th>Ano</th>
                 <th>Editora</th>
                 <th>Preço</th>
+                <th>ISBN</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -202,9 +237,12 @@ export default class Books extends Component {
                   <td>{book.title}</td>
                   <td>{book.description}</td>
                   <td>{book.author}</td>
+                  <td>{book.page_number}</td>
                   <td>{book.year}</td>
                   <td>{book.publishing_company}</td>
                   <td>{book.price}</td>
+                  <td>{book.isbn}</td>
+                  <td>{book.ImageInput}</td>
                   <td>
                     <ButtonTable onClick={() => this.handleUpdate(book.id)} tipo="put">Alterar</ButtonTable>
                     <ButtonTable onClick={() => this.handleDelete(book.id)} tipo="del">Excluir</ButtonTable>
