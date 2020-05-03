@@ -1,10 +1,31 @@
 import Book from '../models/Book';
+import File from '../models/File';
 
 class BookController {
   async store(req, res) {
-    const book = await Book.create(req.body);
+    const {
+      title, description, author, page_number, year, publishing_company, price, isbn, avatar,
+    } = await Book.create(req.body, {
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['id', 'path', 'url'],
+        },
+      ],
+    });
 
-    return res.json(book);
+    return res.json({
+      title,
+      description,
+      author,
+      page_number,
+      year,
+      publishing_company,
+      price,
+      isbn,
+      avatar,
+    });
   }
 
   async index(req, res) {
