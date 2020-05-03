@@ -4,13 +4,12 @@ import File from '../models/File';
 class BookController {
   async store(req, res) {
     const {
-      title, description, author, page_number, year, publishing_company, price, isbn, avatar,
+      title, description, author, page_number, year, publishing_company, price, isbn,
     } = await Book.create(req.body, {
       include: [
         {
           model: File,
-          as: 'avatar',
-          attributes: ['id', 'path', 'url'],
+          attributes: ['id', 'name', 'path'],
         },
       ],
     });
@@ -24,7 +23,6 @@ class BookController {
       publishing_company,
       price,
       isbn,
-      avatar,
     });
   }
 

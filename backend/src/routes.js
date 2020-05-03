@@ -14,6 +14,8 @@ routes.post('/books', BookController.store);
 routes.put('/books/:id', BookController.update);
 routes.delete('/books/:id', BookController.delete);
 
+routes.get('/files', FileController.index);
+routes.get('/files/:id', FileController.show);
 routes.post('/files', upload.single('file'), FileController.store);
 
 export default routes;
