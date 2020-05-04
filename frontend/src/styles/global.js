@@ -1,11 +1,12 @@
 import { createGlobalStyle } from 'styled-components'
 
+
 export default createGlobalStyle`
 
     * {
         margin: 0;
         padding: 0;
-        outlone: 0;
+        outline: 0;
         box-sizing: border-box;
     }
 
@@ -16,7 +17,7 @@ export default createGlobalStyle`
     body {
         // background: #7159c1;
         background: white;
-        -webkit-font-smoothing: antilased !important;
+        -webkit-font-smoothing: antialiased !important;
     }
 
     body, input, button {
@@ -29,4 +30,3 @@ export default createGlobalStyle`
         cursor: pointer;
     }
 `
-

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import api from '../../services/api';
 
-import ImageInput from './ImageInput/index'
+import ImageShow from './ImageShow/index'
 
 import {
   Container,
@@ -30,13 +30,14 @@ export default class Books extends Component {
     selectedFile: "",
     list: [],
     bookInfo: {},
+    imgInfor: {},
     page: 1,
     updateId: '',
   }
 
   handleSubmit = async e => {
     e.preventDefault();
-    const { title, description, author, page_number, year, publishing_company, price, isbn, list, updateId, page } = this.state;
+    const { title, description, author, page_number, year, publishing_company, price, isbn, avatar_id, list, updateId, page } = this.state;
 
     if (!!updateId) {
       await api.put(`/books/${updateId}`, {
@@ -48,6 +49,7 @@ export default class Books extends Component {
         publishing_company,
         price,
         isbn,
+        avatar_id,
       });
 
       this.setState({
@@ -59,6 +61,7 @@ export default class Books extends Component {
         publishing_company: '',
         price: '',
         isbn: '',
+        avatar_id: '',
       });
 
       this.componentDidMount(page);
@@ -75,6 +78,7 @@ export default class Books extends Component {
       publishing_company,
       price,
       isbn,
+      avatar_id,
     });
 
     this.setState({
@@ -87,6 +91,7 @@ export default class Books extends Component {
       publishing_company: '',
       price: '',
       isbn: '',
+      avatar_id: '',
     })
   }
 
@@ -138,7 +143,7 @@ export default class Books extends Component {
 
   render() {
 
-    const { title, description, author, page_number, year, publishing_company, price, isbn, list } = this.state
+    const { title, description, author, page_number, year, publishing_company, price, isbn, avatar_id, list } = this.state
 
     return (
       <Container>
@@ -146,7 +151,6 @@ export default class Books extends Component {
           <Title>Cadastro de Livros</Title>
           <FormColumn onSubmit={this.handleSubmit}>
 
-          <ImageInput name="avatar_id"/>
             <InputColumn
               type="text"
               name="title"
@@ -205,12 +209,20 @@ export default class Books extends Component {
             />
             <InputColumn
               type="text"
-              name="author"
-              id="author"
+              name="isbn"
+              id="isbn"
               placeholder="Digite ISBN"
               value={isbn}
               onChange={e => this.setState({ isbn: e.target.value })}
             />
+            <ImageShow>
+            <InputColumn
+              type='file'
+              name='avatar_id'
+              value={avatar_id}
+              onChange={e => this.setState({ avatar_id: e.target.value })}
+            />
+            </ImageShow>
             <div>
               <Button type="submit" tipo="add">Salvar</Button>
               <Button tipo="remove">Cancelar</Button>
@@ -242,7 +254,6 @@ export default class Books extends Component {
                   <td>{book.publishing_company}</td>
                   <td>{book.price}</td>
                   <td>{book.isbn}</td>
-                  <td>{book.ImageInput}</td>
                   <td>
                     <ButtonTable onClick={() => this.handleUpdate(book.id)} tipo="put">Alterar</ButtonTable>
                     <ButtonTable onClick={() => this.handleDelete(book.id)} tipo="del">Excluir</ButtonTable>
@@ -260,4 +271,3 @@ export default class Books extends Component {
     )
   }
 }
-

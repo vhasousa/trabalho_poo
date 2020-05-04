@@ -3,12 +3,12 @@ import Books from './pages/books/index';
 import GlobalStyle from './styles/global';
 
 function App() {
-  return (
+    return (
     <>
       <Books />
       <GlobalStyle />
     </>
-  );
-}
+    )
+  }
 
 export default App;

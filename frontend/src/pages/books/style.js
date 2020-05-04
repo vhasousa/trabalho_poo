@@ -23,7 +23,7 @@ export const FormColumn = styled.form`
   /* Todo o espaço vertical em branco ficara entre os componentes filhos*/
   justify-content: space-between; 
   
-  /* Ocupa todo o espaço hotizontal possivel */
+  /* Ocupa todo o espaço horizontal possivel */
   align-items: stretch; 
 
   /* Dispositivos com mais de 767px de largura*/
@@ -200,7 +200,13 @@ export const Actions = styled.div`
     }
   }`
 
-
-  
-
+export const Content = styled.div`
+  width:100%;
+  max-width:400px;
+  margin:30px;
+  background:#687ac3;
+  border-radius:4px;
+  padding:20px;
+  text-align:center;
+`;
 
